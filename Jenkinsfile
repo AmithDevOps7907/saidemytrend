@@ -1,26 +1,30 @@
 pipeline {
-   agent any
-   enviornment {
-      PATH = "/opt/maven/bin:$PATH"
-   }
+  agent any
 
-   stages {
-    
-      stage ('clone') {
-        steps {
-           git url: 'https://github.com/AmithDevOps7907/saidemytrend.git', branch: 'main'
-    
-      stage ('SonarQube Analysis') {
-      environment {
-        scannerHome = tool 'ami-sonar'
+  environment {
+     PATH = "/opt/maven/bin:$PATH"
+
+  }
+
+  stages {
+
+     stage ('build') {
+       steps {
+          sh 'mvn clean deploy'
+       }
+    }
+
+     stage ('SonarQube analysis') {
+       environment {
+        scannerHome = tool 'amith-sonarqube-scanner'
       }
-         steps {
-            withSonarQubeEnv('Sonar-server') {
-            sh "${scannerHome}/bin/sonar-scanner"
-            }
-          }
+
+      steps {
+         withSonarQubeEnv('amith-sonarqube-server') {
+         sh "${scannerHome}/bin/sonar-scanner"
         }
-      }
      }
     }
-   }
+  }
+}
+
