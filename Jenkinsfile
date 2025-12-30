@@ -16,11 +16,11 @@ pipeline {
 
      stage ('SonarQube analysis') {
        environment {
-        scannerHome = tool 'amith-sonarqube-scanner'
+        scannerHome = tool 'ami-sonar'
       }
 
       steps {
-         withSonarQubeEnv('amith-sonarqube-server') {
+         withSonarQubeEnv('Sonar-server') {
          sh "${scannerHome}/bin/sonar-scanner"
         }
      }
